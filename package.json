@@ -19,6 +19,7 @@
   "homepage": "https://github.com/james-baker/north-crown-hill-functions#readme",
   "dependencies": {
     "dotenv": "^8.2.0",
-    "netlify-lambda": "^1.6.3"
+    "netlify-lambda": "^1.6.3",
+    "twilio": "^3.42.1"
   }
 }
