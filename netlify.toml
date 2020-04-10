@@ -1,6 +1,6 @@
 # Reference: https://docs.netlify.com/configure-builds/file-based-configuration/#sample-file
 [build]
-  command = ""
+  command = "npm run build"
   publish = "static/"
   functions = ".functions"
 
