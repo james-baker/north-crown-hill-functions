@@ -1,0 +1,19 @@
+{
+  "name": "north-crown-hill-functions",
+  "version": "1.0.0",
+  "description": "lambda functions for twilio hotline call handling for northcrownhill.com",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/james-baker/north-crown-hill-functions.git"
+  },
+  "author": "James Baker",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/james-baker/north-crown-hill-functions/issues"
+  },
+  "homepage": "https://github.com/james-baker/north-crown-hill-functions#readme"
+}
