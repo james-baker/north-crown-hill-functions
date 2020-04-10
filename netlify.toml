@@ -1,0 +1,8 @@
+# Reference: https://docs.netlify.com/configure-builds/file-based-configuration/#sample-file
+[build]
+  command = ""
+  publish = "public/"
+  functions = ".functions"
+
+[build.environment]
+  NODE_VERSION = "12.16.1"
