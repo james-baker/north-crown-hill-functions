@@ -1,1 +1,3 @@
 npm init
+npm install --save netlify-lambda
+npm install --save dotenv
