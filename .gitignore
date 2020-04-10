@@ -1,5 +1,8 @@
 .vscode
 
+# generated functions
+.functions
+
 # Logs
 logs
 *.log
