@@ -2,7 +2,7 @@
   "name": "north-crown-hill-functions",
   "version": "1.0.0",
   "description": "lambda functions for twilio hotline call handling for northcrownhill.com",
-  "main": "index.js",
+  "main": "index.html",
   "scripts": {
     "build": "echo \"Nothing to do for build yet.\"",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/james-baker/north-crown-hill-functions/issues"
   },
-  "homepage": "https://github.com/james-baker/north-crown-hill-functions#readme"
+  "homepage": "https://github.com/james-baker/north-crown-hill-functions#readme",
+  "dependencies": {
+    "netlify-lambda": "^1.6.3"
+  }
 }
