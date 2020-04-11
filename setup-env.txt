@@ -1,5 +1,6 @@
 Initial setup guided by https://www.twilio.com/blog/a-how-to-send-text-messages-from-your-static-site-using-netlify-twilio-and-serverless-functions
 npm init
-npm install --save netlify-lambda
-npm install --save dotenv
-npm install --save twilio
+npm install netlify-lambda
+npm install dotenv
+npm install twilio
+npm install @slack/web-api

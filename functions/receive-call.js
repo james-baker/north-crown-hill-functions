@@ -2,7 +2,7 @@
 require("dotenv").config();
 import querystring from "querystring";
 //import fetch from "node-fetch";
-
+const { WebClient } = require('@slack/web-api');
 const VoiceResponse = require("twilio").twiml.VoiceResponse;
 
 exports.handler = async (event, context) => {
@@ -16,25 +16,29 @@ exports.handler = async (event, context) => {
     params = event.queryStringParameters;
   }
 
-  // // Send greeting to Slack
-  // return fetch(process.env.SLACK_WEBHOOK_URL, {
-  //   headers: {
-  //     "content-type": "application/json",
-  //   },
-  //   method: "POST",
-  //   body: JSON.stringify({ text: `${name} says hello!` }),
-  // })
-  //   .then(() => ({
-  //     statusCode: 200,
-  //     body: `Hello, ${name}! Your greeting has been sent to Slack 👋`,
-  //   }))
-  //   .catch((error) => ({
-  //     statusCode: 422,
-  //     body: `Oops! Something went wrong. ${error}`,
-  //   }));
+  const web = new WebClient(process.env.SLACK_TOKEN);
+
+  (async () => {
+    let response;
+    try {
+      response = await web.chat.postMessage({
+        channel: '#bot-testing',
+        text: `Received a request with params: ${JSON.stringify(params)}`,
+      });
+      if ( response && response.ok ) {
+      } else if ( response && response.ok === false && response.error) {
+        console.log(`postMessage returned error: ${JSON.stringify(response.error)}`);
+      } else {
+        console.log(`postMessage produced unknown result: ${JSON.stringify(response)}`);
+      }
+    } catch (error) {
+      console.log("postMessage chunk threw:")
+      console.log(error);
+    }
+  })();
 
   return {
     statusCode: 200,
-    body: "Received request<br/>Event: " + JSON.stringify(params),
+    body: "Received request.",
   };
 };
