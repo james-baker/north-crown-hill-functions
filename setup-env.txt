@@ -4,3 +4,5 @@ npm install netlify-lambda
 npm install dotenv
 npm install twilio
 npm install @slack/web-api
+put env vars in .env and in Netlify config
+put url in twilio # webhook config

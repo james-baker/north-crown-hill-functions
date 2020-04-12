@@ -26,7 +26,7 @@ exports.handler = async (event, context) => {
     transcribeCallback: 'https://nch-functions.netlify.com/.netlify/functions/receive-transcript'
   });
 
-  slack.postMessage("#bot-testing", `Received a request with params: ${JSON.stringify(params)}`);
+  slack.postMessage("#bot-testing", `receive-call data: ${JSON.stringify(event)}`);
 
   return {
     statusCode: 200,
