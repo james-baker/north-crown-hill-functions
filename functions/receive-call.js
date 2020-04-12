@@ -15,10 +15,21 @@ exports.handler = async (event, context) => {
     params = event.queryStringParameters;
   }
 
+  const response = new VoiceResponse();
+  response.say('Please leave a message at the beep.');
+  response.record({
+    action: 'https://nch-functions.netlify.com/.netlify/functions/receive-recording',
+    method: 'POST',
+    maxLength: 120,
+    timeout: 8,
+    transcribe: true,
+    transcribeCallback: 'https://nch-functions.netlify.com/.netlify/functions/receive-transcript'
+  });
+
   slack.postMessage("#bot-testing", `Received a request with params: ${JSON.stringify(params)}`);
 
   return {
     statusCode: 200,
-    body: "Received request.",
+    body: response.toString(),
   };
 };
