@@ -1,13 +1,12 @@
 // Endpoint: https://nch-functions.netlify.com/.netlify/functions/receive-call
 
 import querystring from "querystring";
-
-const VoiceResponse = require("twilio").twiml.VoiceResponse;
+const twilioClient = require ("../lib/twilio-wrappers");
 const slack = require("../lib/slack-wrappers");
+const VoiceResponse = require("twilio").twiml.VoiceResponse;
 
 exports.handler = async (event, context) => {
-  const client = require("twilio")(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
-  console.log("Hello async world!");
+  console.log("Running receive-call");
 
   var params;
   if (event.httpMethod === "POST") {
