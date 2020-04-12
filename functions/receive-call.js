@@ -1,9 +1,9 @@
-// https://nch-functions.netlify.com/.netlify/functions/receive-call
-require("dotenv").config();
+// Endpoint: https://nch-functions.netlify.com/.netlify/functions/receive-call
+
 import querystring from "querystring";
-//import fetch from "node-fetch";
-const { WebClient } = require('@slack/web-api');
+
 const VoiceResponse = require("twilio").twiml.VoiceResponse;
+const slack = require("../lib/slack-wrappers");
 
 exports.handler = async (event, context) => {
   const client = require("twilio")(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
@@ -16,26 +16,7 @@ exports.handler = async (event, context) => {
     params = event.queryStringParameters;
   }
 
-  const web = new WebClient(process.env.SLACK_TOKEN);
-
-  (async () => {
-    let response;
-    try {
-      response = await web.chat.postMessage({
-        channel: '#bot-testing',
-        text: `Received a request with params: ${JSON.stringify(params)}`,
-      });
-      if ( response && response.ok ) {
-      } else if ( response && response.ok === false && response.error) {
-        console.log(`postMessage returned error: ${JSON.stringify(response.error)}`);
-      } else {
-        console.log(`postMessage produced unknown result: ${JSON.stringify(response)}`);
-      }
-    } catch (error) {
-      console.log("postMessage chunk threw:")
-      console.log(error);
-    }
-  })();
+  slack.postMessage("#bot-testing", `Received a request with params: ${JSON.stringify(params)}`);
 
   return {
     statusCode: 200,
