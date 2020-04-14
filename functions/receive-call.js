@@ -26,22 +26,7 @@ exports.handler = async (event, context) => {
     transcribeCallback: 'https://nch-functions.netlify.com/.netlify/functions/receive-transcript'
   });
 
-  var pmResponse = await slack.postMessage("#bot-testing", `receive-call data: ${JSON.stringify(event)}`);
-  const { WebClient } = require('@slack/web-api');
-  const web = new WebClient(process.env.SLACK_TOKEN);
-  // var pmResponse;
-  // // (async () => {
-  //   console.log("entered async.");
-  //   try {
-  //     pmResponse = await web.chat.postMessage({
-  //       channel: "#bot-testing",
-  //       text: `receive-call data: ${JSON.stringify(event)}`,
-  //     });
-  //   } catch (error) {
-  //     console.log("postMessage chunk threw:");
-  //     console.log(error);
-  //   }
-  // // })();
+  var pmResponse = slack.postMessage("#bot-testing", `receive-call data: ${JSON.stringify(event)}`);
 
   console.log("outside the async: "+JSON.stringify(pmResponse));
 
