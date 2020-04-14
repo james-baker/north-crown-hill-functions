@@ -1,14 +1,14 @@
 // Endpoint: https://nch-functions.netlify.com/.netlify/functions/receive-call
 
-const querystring = require("../lib/querystring-wrappers");
-const twilioClient = require ("../lib/twilio-wrappers");
+import qs from "../lib/querystring-wrappers";
+const twilioClient = require("../lib/twilio-wrappers");
 const slack = require("../lib/slack-wrappers");
 const VoiceResponse = require("twilio").twiml.VoiceResponse;
 
 exports.handler = async (event, context) => {
   console.log("Running receive-call");
 
-  var params = querystring.getParams(event);
+  var params = qs.getParams(event);
   slack.postMessage("#bot-testing", `receive-call params: ${JSON.stringify(params)}`);
 
   const response = new VoiceResponse();
