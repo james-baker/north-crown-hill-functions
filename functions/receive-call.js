@@ -9,7 +9,7 @@ exports.handler = async (event, context) => {
   console.log(`Running receive-call as ${event.httpMethod}`);
 
   var params = qs.getParams(event);
-  slack.postMessage("#bot-testing", `receive-call params: ${JSON.stringify(params)}`);
+  await slack.postMessage("#bot-testing", `receive-call params: ${JSON.stringify(params)}`);
 
   const response = new VoiceResponse();
   response.say('Please leave a message at the beep.');
