@@ -6,7 +6,7 @@ const slack = require("../lib/slack-wrappers");
 const VoiceResponse = require("twilio").twiml.VoiceResponse;
 
 exports.handler = async (event, context) => {
-  console.log("Running receive-call");
+  console.log(`Running receive-call as ${event.httpMethod}`);
 
   var params = qs.getParams(event);
   slack.postMessage("#bot-testing", `receive-call params: ${JSON.stringify(params)}`);
