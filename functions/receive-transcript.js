@@ -10,7 +10,11 @@ exports.handler = async (event, context) => {
 
   const params = qs.getParams(event);
   console.log(params);
-  await slack.postMessage("#bot-testing", `receive-transcript data: ${JSON.stringify(params)}`);
+  if (!params || !params.TranscriptionText) {
+    await slack.postMessage("#bot-testing", "receive-transcript params did not contain Twilio TranscriptionText");
+  } else {
+    await slack.postMessage("#bot-testing", `receive-transcript data: ${params.TranscriptionText}`);
+  }
 
   const response = new VoiceResponse();
   return {
