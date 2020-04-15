@@ -12,6 +12,7 @@ exports.handler = async (event, context) => {
   slack.postMessage("#bot-testing", `receive-recording data: ${JSON.stringify(params)}`);
 
   return {
-    statusCode: 204
+    statusCode: 204,
+    headers: { "Content-Type": "text/xml"}
   };
 };
