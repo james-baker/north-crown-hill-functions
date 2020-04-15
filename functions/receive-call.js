@@ -21,6 +21,8 @@ exports.handler = async (event, context) => {
     transcribe: true,
     transcribeCallback: 'https://nch-functions.netlify.com/.netlify/functions/receive-transcript'
   });
+  response.say('Thank you for your message.');
+  response.hangup();
 
   return {
     statusCode: 200,

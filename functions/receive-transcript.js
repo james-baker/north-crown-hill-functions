@@ -8,10 +8,10 @@ exports.handler = async (event, context) => {
   console.log("Running receive-transcript");
 
   const params = qs.getParams(event);
+  console.log(params);
   slack.postMessage("#bot-testing", `receive-transcript data: ${JSON.stringify(params)}`);
 
   return {
-    statusCode: 200,
-    body: "received transcript"
+    statusCode: 204
   };
 };
