@@ -10,7 +10,7 @@ exports.handler = async (event, context) => {
 
   const params = qs.getParams(event);
   console.log(params);
-  slack.postMessage("#bot-testing", `receive-recording data: ${JSON.stringify(params)}`);
+  await slack.postMessage("#bot-testing", `receive-recording data: ${JSON.stringify(params)}`);
 
   const response = new VoiceResponse();
   return {
