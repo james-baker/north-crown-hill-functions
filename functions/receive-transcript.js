@@ -10,10 +10,16 @@ exports.handler = async (event, context) => {
 
   const params = qs.getParams(event);
   console.log(params);
-  if (!params || !params.TranscriptionText) {
-    await slack.postMessage("#bot-testing", "receive-transcript params did not contain Twilio TranscriptionText");
+  if (!params || !params.CallSid) {
+    await slack.postMessage("#bot-testing", `receive-transcript error, missing params or CallSid: ${JSON.stringify(params)}`);
+  } else if (params.TranscriptionStatus !== "completed") {
+    await slack.postMessage("#bot-testing", `receive-transcript TranscriptionStatus was: ${params.TranscriptionStatus}. `+
+    "This happens if the recording is <2 seconds or >120 seconds.");
+  }else if (!params.TranscriptionText) {
+    await slack.postMessage("#bot-testing", `receive-transcript error for call ${params.CallSid}, `+
+    "TranscriptionStatus was 'completed' but params did not contain TranscriptionText");
   } else {
-    await slack.postMessage("#bot-testing", `receive-transcript data: ${params.TranscriptionText}`);
+    await slack.postMessage("#bot-testing", `Voicemail transcript for call ID ${params.CallSid}: ${params.TranscriptionText}`);
   }
 
   const response = new VoiceResponse();

@@ -10,11 +10,13 @@ exports.handler = async (event, context) => {
 
   const params = qs.getParams(event);
   console.log(params);
-  if (!params || !params.RecordingUrl) {
-    await slack.postMessage("#bot-testing", "receive-recording params did not contain Twilio RecordingUrl");
+  if (!params || !params.CallSid) {
+    await slack.postMessage("#bot-testing", `receive-recording error, missing params or CallSid: ${JSON.stringify(params)}`);
+  } else if (!params.RecordingUrl) {
+    await slack.postMessage("#bot-testing", `receive-recording error for call ${params.CallSid}, params did not contain RecordingUrl`);
   } else {
     const recording = params.RecordingUrl + ".mp3";
-    await slack.postMessage("#bot-testing", `receive-recording data: ${recording}`);
+    await slack.postMessage("#bot-testing", `Recorded voicemail for call ID ${params.CallSid}: ${recording}`);
   }
 
   const response = new VoiceResponse();

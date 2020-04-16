@@ -9,7 +9,12 @@ exports.handler = async (event, context) => {
   console.log(`Running receive-call as ${event.httpMethod}`);
 
   var params = qs.getParams(event);
-  await slack.postMessage("#bot-testing", `receive-call params: ${JSON.stringify(params)}`);
+  console.log(params);
+  if (!params || !params.CallSid) {
+    await slack.postMessage("#bot-testing", `receive-call error, missing params or CallSid: ${JSON.stringify(params)}`);
+  } else {
+    await slack.postMessage("#bot-testing", `Receiving new call from ${params.Caller} (ID ${params.CallSid})`);
+  }
 
   const response = new VoiceResponse();
   response.say('Please leave a message at the beep.');
