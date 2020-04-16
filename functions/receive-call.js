@@ -8,13 +8,15 @@ const VoiceResponse = require("twilio").twiml.VoiceResponse;
 
 exports.handler = async (event, context) => {
   console.log(`Running receive-call as ${event.httpMethod}`);
+  const channel = "#bot-testing";
 
   var params = qs.getParams(event);
   console.log(params);
   if (!params || !params.CallSid) {
-    await slack.postMessage("#bot-testing", `receive-call error, missing params or CallSid: ${JSON.stringify(params)}`);
+    await slack.postMessage(channel, `receive-call error, missing params or CallSid: ${JSON.stringify(params)}`);
   } else {
-    await slack.postMessage("#bot-testing", `Receiving new call from ${params.Caller} (ID ${params.CallSid})`);
+    const pmResponse = await slack.postMessage(channel, `Receiving new call from ${params.Caller}...`);
+    await slack.postReply(channel, `Unique call ID: ${params.CallSid}`, pmResponse.ts);
   }
 
   const response = new VoiceResponse();
