@@ -18,18 +18,14 @@ exports.handler = async (event, context) => {
   } else {
     const searchResult = await slack.search(params.CallSid);
     console.log(searchResult);
-    if (searchResult && searchResult.ok === true && searchResult.messages && searchResult.messages.total === 1) {
+    if (searchResult && searchResult.ok === true && searchResult.messages && searchResult.messages.total >= 1) {
       console.log(searchResult.messages.matches[0]);
       const match = searchResult.messages.matches[0];
-      const matchChannel = match.channel.id;
-      console.log(matchChannel);
-      const matchUser = match.username; //nchbot
-      const matchTS = match.ts;
-      const messageResult = await slack.getMessage(matchChannel, matchTS);
-      console.log(messageResult);
-    
+      //const matchChannel = match.channel.id;
+      //const matchUser = match.username; //nchbot
+
       const recording = params.RecordingUrl + ".mp3";
-      await slack.postReply(channel, `Recorded voicemail (${params.RecordingDuration} seconds) for call ID ${params.CallSid}: ${recording}`, messageResult.messages[0].thread_ts);
+      await slack.postReply(channel, `Voicemail (~${params.RecordingDuration} seconds) link: ${recording}`, match.ts);
     }
   }
 

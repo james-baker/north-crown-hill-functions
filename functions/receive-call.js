@@ -15,8 +15,7 @@ exports.handler = async (event, context) => {
   if (!params || !params.CallSid) {
     await slack.postMessage(channel, `receive-call error, missing params or CallSid: ${JSON.stringify(params)}`);
   } else {
-    const pmResponse = await slack.postMessage(channel, `Receiving new call from ${params.Caller}...`);
-    await slack.postReply(channel, `Unique call ID: ${params.CallSid}`, pmResponse.ts);
+    await slack.postMessage(channel, `Receiving new call from ${params.Caller}... (Unique call ID: ${params.CallSid})`);
   }
 
   const response = new VoiceResponse();
