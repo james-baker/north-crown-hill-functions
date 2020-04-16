@@ -3,7 +3,7 @@
 import qs from "../lib/querystring-wrappers";
 import httpResponse from "../lib/httpreturns";
 const slack = require("../lib/slack-wrappers");
-const VoiceResponse = require("twilio").twiml.VoiceResponse;
+//const VoiceResponse = require("twilio").twiml.VoiceResponse;
 
 exports.handler = async (event, context) => {
   console.log(`Running receive-recording as ${event.httpMethod}`);
@@ -19,9 +19,9 @@ exports.handler = async (event, context) => {
     await slack.postMessage("#bot-testing", `Recorded voicemail (${params.RecordingDuration} seconds) for call ID ${params.CallSid}: ${recording}`);
   }
 
-  const response = new VoiceResponse();
-  response.say('Please leave a message at the beep.');
-  response.hangup();
+  // const response = new VoiceResponse();
+  // response.say('Thank you for your message.');
+  // response.hangup();
 
-  return httpResponse.xml200(response);
+  return httpResponse.xml200('<?xml version="1.0" encoding="UTF-8"?><Response><Say>Thank you for your message.</Say><Hangup/></Response>');
 };
