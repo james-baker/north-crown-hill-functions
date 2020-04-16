@@ -1,7 +1,8 @@
 // Endpoint: https://nch-functions.netlify.app/.netlify/functions/receive-call
 
 import qs from "../lib/querystring-wrappers";
-const twilioClient = require("../lib/twilio-wrappers");
+import httpResponse from "../lib/httpreturns";
+//const twilioClient = require("../lib/twilio-wrappers");
 const slack = require("../lib/slack-wrappers");
 const VoiceResponse = require("twilio").twiml.VoiceResponse;
 
@@ -26,12 +27,8 @@ exports.handler = async (event, context) => {
     transcribe: true,
     transcribeCallback: 'https://nch-functions.netlify.app/.netlify/functions/receive-transcript'
   });
-  response.say('Thank you for your message.');
+  response.say('We did not hear your message. Please call again.');
   response.hangup();
 
-  return {
-    statusCode: 200,
-    headers: { "Content-Type": "text/xml"},
-    body: response.toString(),
-  };
+  return httpResponse.xml200(response);
 };

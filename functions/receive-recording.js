@@ -1,7 +1,7 @@
 // Endpoint: https://nch-functions.netlify.app/.netlify/functions/receive-recording
 
 import qs from "../lib/querystring-wrappers";
-const twilioClient = require ("../lib/twilio-wrappers");
+import httpResponse from "../lib/httpreturns";
 const slack = require("../lib/slack-wrappers");
 const VoiceResponse = require("twilio").twiml.VoiceResponse;
 
@@ -16,13 +16,12 @@ exports.handler = async (event, context) => {
     await slack.postMessage("#bot-testing", `receive-recording error for call ${params.CallSid}, params did not contain RecordingUrl`);
   } else {
     const recording = params.RecordingUrl + ".mp3";
-    await slack.postMessage("#bot-testing", `Recorded voicemail for call ID ${params.CallSid}: ${recording}`);
+    await slack.postMessage("#bot-testing", `Recorded voicemail (${params.RecordingDuration} seconds) for call ID ${params.CallSid}: ${recording}`);
   }
 
   const response = new VoiceResponse();
-  return {
-    statusCode: 200,
-    headers: { "Content-Type": "text/xml"},
-    body: response.toString()
-  };
+  response.say('Please leave a message at the beep.');
+  response.hangup();
+
+  return httpResponse.xml200(response);
 };

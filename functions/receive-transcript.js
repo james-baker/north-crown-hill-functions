@@ -1,9 +1,8 @@
 // Endpoint: https://nch-functions.netlify.app/.netlify/functions/receive-transcript
 
 import qs from "../lib/querystring-wrappers";
-const twilioClient = require ("../lib/twilio-wrappers");
+import httpResponse from "../lib/httpreturns";
 const slack = require("../lib/slack-wrappers");
-const VoiceResponse = require("twilio").twiml.VoiceResponse;
 
 exports.handler = async (event, context) => {
   console.log(`Running receive-transcript as ${event.httpMethod}`);
@@ -22,10 +21,5 @@ exports.handler = async (event, context) => {
     await slack.postMessage("#bot-testing", `Voicemail transcript for call ID ${params.CallSid}: ${params.TranscriptionText}`);
   }
 
-  const response = new VoiceResponse();
-  return {
-    statusCode: 200,
-    headers: { "Content-Type": "text/xml"},
-    body: response.toString()
-  };
+  return httpResponse.empty200;
 };
