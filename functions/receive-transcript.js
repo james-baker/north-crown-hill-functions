@@ -1,4 +1,4 @@
-// Endpoint: https://nch-functions.netlify.com/.netlify/functions/receive-transcript
+// Endpoint: https://nch-functions.netlify.app/.netlify/functions/receive-transcript
 
 import qs from "../lib/querystring-wrappers";
 const twilioClient = require ("../lib/twilio-wrappers");

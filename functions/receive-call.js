@@ -1,4 +1,4 @@
-// Endpoint: https://nch-functions.netlify.com/.netlify/functions/receive-call
+// Endpoint: https://nch-functions.netlify.app/.netlify/functions/receive-call
 
 import qs from "../lib/querystring-wrappers";
 const twilioClient = require("../lib/twilio-wrappers");
@@ -14,12 +14,12 @@ exports.handler = async (event, context) => {
   const response = new VoiceResponse();
   response.say('Please leave a message at the beep.');
   response.record({
-    action: 'https://nch-functions.netlify.com/.netlify/functions/receive-recording',
+    action: 'https://nch-functions.netlify.app/.netlify/functions/receive-recording',
     method: 'POST',
     maxLength: 120,
     timeout: 8,
     transcribe: true,
-    transcribeCallback: 'https://nch-functions.netlify.com/.netlify/functions/receive-transcript'
+    transcribeCallback: 'https://nch-functions.netlify.app/.netlify/functions/receive-transcript'
   });
   response.say('Thank you for your message.');
   response.hangup();
