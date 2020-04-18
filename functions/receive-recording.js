@@ -10,17 +10,17 @@ exports.handler = async (event, context) => {
   const channel = "#bot-testing";
 
   const params = qs.getParams(event);
-  if (!params || !params.CallSid) {
-    await slack.postMessage(channel, `receive-recording error, missing params or CallSid: ${JSON.stringify(params)}`);
+  const thread_ts = params.ts;
+  if (!params) {
+    await slack.postReply(channel, `receive-recording error, missing params: ${JSON.stringify(params)}`, thread_ts);
   } else if (!params.RecordingUrl) {
-    await slack.postMessage(channel, `receive-recording error for call ${params.CallSid}, params did not contain RecordingUrl`);
+    await slack.postReply(channel, `receive-recording error for call ${params.Caller}, params did not contain RecordingUrl`, thread_ts);
   } else {
-    const thread_ts = params.ts; //await slack.getThreadContainingGUID(params.CallSid);
     const recording = params.RecordingUrl + ".mp3";
     if (thread_ts) {
       await slack.postReply(channel, `Voicemail (${params.RecordingDuration} seconds) link: ${recording}`, thread_ts);
     } else {
-      await slack.postReply(channel, `Unable to find an existing call thread for call ID ${params.CallSid}.\n Voicemail (${params.RecordingDuration} seconds) link: ${recording}`, thread_ts);
+      await slack.postReply(channel, `Couldn't find Slack message thread for ${params.Caller}.\n Voicemail (${params.RecordingDuration} seconds) link: ${recording}`, thread_ts);
     }
   }
 

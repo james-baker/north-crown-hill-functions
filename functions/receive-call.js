@@ -11,8 +11,8 @@ exports.handler = async (event, context) => {
   const channel = "#bot-testing";
 
   var params = qs.getParams(event);
-  if (!params || !params.CallSid) {
-    await slack.postMessage(channel, `receive-call error, missing params or CallSid in: ${JSON.stringify(params)}`);
+  if (!params) {
+    await slack.postMessage(channel, `receive-call error, missing params: ${JSON.stringify(params)}`);
   }
 
   const messageConfirmation = await slack.postMessage(channel, `Receiving new call from ${params.Caller}...`);

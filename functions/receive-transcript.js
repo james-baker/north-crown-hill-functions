@@ -9,20 +9,20 @@ exports.handler = async (event, context) => {
   const channel = "#bot-testing";
 
   const params = qs.getParams(event);
-  if (!params || !params.CallSid) {
-    await slack.postMessage(channel, `receive-transcript error, missing params or CallSid: ${JSON.stringify(params)}`);
+  const thread_ts = params.ts;
+  if (!params) {
+    await slack.postReply(channel, `receive-transcript error, missing params: ${JSON.stringify(params)}`, thread_ts);
   } else if (params.TranscriptionStatus !== "completed") {
-    await slack.postMessage(channel, `receive-transcript TranscriptionStatus was: ${params.TranscriptionStatus}. `+
-    "This happens if the recording is <2 seconds or >120 seconds.");
+    await slack.postReply(channel, `No transcription - TranscriptionStatus was: ${params.TranscriptionStatus}. `+
+    "This happens if the recording is <2 seconds or >120 seconds.", thread_ts);
   } else if (!params.TranscriptionText) {
-    await slack.postMessage(channel, `receive-transcript error for call ${params.CallSid}, `+
-    "TranscriptionStatus was 'completed' but params did not contain TranscriptionText");
+    await slack.postReply(channel, `receive-transcript error for call ${params.Caller}, `+
+    "TranscriptionStatus was 'completed' but params did not contain TranscriptionText", thread_ts);
   } else {
-    const thread_ts = params.ts; //await slack.getThreadContainingGUID(params.CallSid);
     if (thread_ts) {
-      await slack.postReply(channel, `Voicemail transcript: ${params.TranscriptionText}`, thread_ts);
+      await slack.postReply(channel, `Automatic transcription: ${params.TranscriptionText}`, thread_ts);
     } else {
-      await slack.postMessage(channel, `Unable to find an existing call thread for call ID ${params.CallSid}.\n Voicemail transcript: ${params.TranscriptionText}`);
+      await slack.postMessage(channel, `Couldn't find Slack message thread for ${params.Caller}.\n Automatic transcription: ${params.TranscriptionText}`);
     }
   }
 
