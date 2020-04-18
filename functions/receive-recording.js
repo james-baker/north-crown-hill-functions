@@ -16,16 +16,12 @@ exports.handler = async (event, context) => {
   } else if (!params.RecordingUrl) {
     await slack.postMessage(channel, `receive-recording error for call ${params.CallSid}, params did not contain RecordingUrl`);
   } else {
-    const searchResult = await slack.search(params.CallSid);
-    console.log(searchResult);
-    if (searchResult && searchResult.ok === true && searchResult.messages && searchResult.messages.total >= 1) {
-      console.log(searchResult.messages.matches[0]);
-      const match = searchResult.messages.matches[0];
-      //const matchChannel = match.channel.id;
-      //const matchUser = match.username; //nchbot
-
-      const recording = params.RecordingUrl + ".mp3";
-      await slack.postReply(channel, `Voicemail (~${params.RecordingDuration} seconds) link: ${recording}`, match.ts);
+    const thread_ts = await slack.getThreadContainingGUID(params.CallSid);
+    const recording = params.RecordingUrl + ".mp3";
+    if (thread_ts) {
+      await slack.postReply(channel, `Voicemail (${params.RecordingDuration} seconds) link: ${recording}`, thread_ts);
+    } else {
+      await slack.postReply(channel, `Unable to find an existing call thread for call ID ${params.CallSid}.\n Voicemail (${params.RecordingDuration} seconds) link: ${recording}`, thread_ts);
     }
   }
 
