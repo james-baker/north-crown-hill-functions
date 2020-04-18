@@ -1,5 +1,6 @@
 // Endpoint: https://nch-functions.netlify.app/.netlify/functions/receive-recording
 
+import config from "../lib/config";
 import qs from "../lib/querystring-wrappers";
 import httpResponse from "../lib/httpreturns";
 const slack = require("../lib/slack-wrappers");
@@ -7,9 +8,8 @@ const slack = require("../lib/slack-wrappers");
 
 exports.handler = async (event, context) => {
   console.log(`Running receive-recording as ${event.httpMethod}`);
-  const channel = "#bot-testing";
-
   const params = qs.getParams(event);
+  const channel = (params.test) ? config.testingChannel : config.hotlineChannel;
   const thread_ts = params.ts;
   if (!params) {
     await slack.postReply(channel, `receive-recording error, missing params: ${JSON.stringify(params)}`, thread_ts);
