@@ -11,23 +11,22 @@ exports.handler = async (event, context) => {
   const channel = "#bot-testing";
 
   var params = qs.getParams(event);
-  console.log(params);
   if (!params || !params.CallSid) {
-    await slack.postMessage(channel, `receive-call error, missing params or CallSid: ${JSON.stringify(params)}`);
-  } else {
-    const messageConfirmation = await slack.postMessage(channel, `Receiving new call from ${params.Caller}...`);
-    await slack.postReply(channel, `Call ID: ${params.CallSid}`, messageConfirmation.ts)
+    await slack.postMessage(channel, `receive-call error, missing params or CallSid in: ${JSON.stringify(params)}`);
   }
+
+  const messageConfirmation = await slack.postMessage(channel, `Receiving new call from ${params.Caller}...`);
+  //await slack.postReply(channel, `Call ID: ${params.CallSid}`, messageConfirmation.ts)
 
   const response = new VoiceResponse();
   response.say('Please leave a message at the beep.');
   response.record({
-    action: 'https://nch-functions.netlify.app/.netlify/functions/receive-recording',
+    action: `https://nch-functions.netlify.app/.netlify/functions/receive-recording?ts=${messageConfirmation.ts}`,
     method: 'POST',
     maxLength: 120,
     timeout: 8,
     transcribe: true,
-    transcribeCallback: 'https://nch-functions.netlify.app/.netlify/functions/receive-transcript'
+    transcribeCallback: `https://nch-functions.netlify.app/.netlify/functions/receive-transcript?ts=${messageConfirmation.ts}`
   });
   response.say('We did not hear your message. Please call again.');
   response.hangup();

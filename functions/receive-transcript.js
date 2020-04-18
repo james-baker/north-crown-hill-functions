@@ -9,7 +9,6 @@ exports.handler = async (event, context) => {
   const channel = "#bot-testing";
 
   const params = qs.getParams(event);
-  console.log(params);
   if (!params || !params.CallSid) {
     await slack.postMessage(channel, `receive-transcript error, missing params or CallSid: ${JSON.stringify(params)}`);
   } else if (params.TranscriptionStatus !== "completed") {
@@ -19,7 +18,7 @@ exports.handler = async (event, context) => {
     await slack.postMessage(channel, `receive-transcript error for call ${params.CallSid}, `+
     "TranscriptionStatus was 'completed' but params did not contain TranscriptionText");
   } else {
-    const thread_ts = await slack.getThreadContainingGUID(params.CallSid);
+    const thread_ts = params.ts; //await slack.getThreadContainingGUID(params.CallSid);
     if (thread_ts) {
       await slack.postReply(channel, `Voicemail transcript: ${params.TranscriptionText}`, thread_ts);
     } else {
