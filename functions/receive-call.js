@@ -22,7 +22,8 @@ exports.handler = async (event, context) => {
   }
 
   const response = new VoiceResponse();
-  response.say('Please leave a message at the beep.');
+  //response.say('Please leave a message at the beep.');
+  response.play("https://www.northcrownhill.com/hotline-start.wav");
   response.record({
     action: `https://nch-functions.netlify.app/.netlify/functions/receive-recording?ts=${messageConfirmation.ts}`,
     method: 'POST',
