@@ -4,8 +4,8 @@
   "description": "lambda functions for twilio hotline call handling for northcrownhill.com",
   "main": "index.html",
   "scripts": {
-    "build": "netlify-lambda build functions",
-    "serve": "netlify-lambda serve functions",
+    "build": "echo \"Functions are bundled automatically by Netlify (esbuild); no build step needed.\"",
+    "serve": "echo \"Run 'netlify dev' (Netlify CLI) to serve functions locally.\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,9 +19,8 @@
   },
   "homepage": "https://github.com/james-baker/north-crown-hill-functions#readme",
   "dependencies": {
-    "@slack/web-api": "^5.8.0",
-    "dotenv": "^8.2.0",
-    "netlify-lambda": "^1.6.3",
-    "twilio": "^3.42.1"
+    "@slack/web-api": "^7.16.0",
+    "dotenv": "^17.4.2",
+    "twilio": "^6.0.2"
   }
 }

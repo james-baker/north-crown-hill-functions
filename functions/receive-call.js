@@ -1,8 +1,8 @@
 // Endpoint: https://nch-functions.netlify.app/.netlify/functions/receive-call
 
-import config from "../lib/config";
-import qs from "../lib/querystring-wrappers";
-import httpResponse from "../lib/httpreturns";
+const config = require("../lib/config");
+const qs = require("../lib/querystring-wrappers");
+const httpResponse = require("../lib/httpreturns");
 //const twilioClient = require("../lib/twilio-wrappers");
 const slack = require("../lib/slack-wrappers");
 const VoiceResponse = require("twilio").twiml.VoiceResponse;

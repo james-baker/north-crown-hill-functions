@@ -1,9 +1,13 @@
 # Reference: https://docs.netlify.com/configure-builds/file-based-configuration/#sample-file
 [build]
-  command = "npm run build"
+  # No build step: Netlify bundles the functions directly with esbuild (see below).
   publish = "static/"
-  functions = ".functions"
+  functions = "functions"
 
 [build.environment]
-  NODE_VERSION = "12.16.1"
-  AWS_LAMBDA_JS_RUNTIME = "nodejs12.x"
+  NODE_VERSION = "24"
+
+[functions]
+  # esbuild bundles each function (and its node_modules) at deploy time,
+  # replacing the deprecated netlify-lambda/webpack build.
+  node_bundler = "esbuild"
